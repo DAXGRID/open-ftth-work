@@ -13,6 +13,10 @@ namespace OpenFTTH.Work.Business
         private ConcurrentDictionary<Guid, WorkProject> _workProjectsById = new();
         private ConcurrentDictionary<Guid, WorkTask> _workTasksById = new();
 
+        public IEnumerable<WorkProject> WorkProjects => _workProjectsById.Values;
+
+        public IEnumerable<WorkTask> WorkTasks => _workTasksById.Values;
+
         public void Add(WorkProject workProject)
         {
             _workProjectsById.TryAdd(workProject.Id, workProject);
