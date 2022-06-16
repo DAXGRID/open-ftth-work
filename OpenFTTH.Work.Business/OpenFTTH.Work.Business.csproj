@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenFTTH.Core" Version="2.0.0" />
+    <PackageReference Include="OpenFTTH.CQRS" Version="2.1.1" />
+    <PackageReference Include="OpenFTTH.Events" Version="3.1.0" />
+    <PackageReference Include="OpenFTTH.EventSourcing" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenFTTH.Work.API\OpenFTTH.Work.API.csproj" />
+  </ItemGroup>
+
+</Project>
