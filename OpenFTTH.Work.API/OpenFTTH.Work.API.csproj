@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentResults" Version="3.5.0" />
+    <PackageReference Include="FluentResults" Version="2.3.0" />
     <PackageReference Include="OpenFTTH.CQRS" Version="2.1.1" />
     <PackageReference Include="OpenFTTH.Events" Version="3.1.0" />
   </ItemGroup>

@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
-    <PackageReference Include="FluentResults" Version="3.5.0" />
+    <PackageReference Include="FluentResults" Version="2.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="OpenFTTH.Core" Version="2.0.0" />
     <PackageReference Include="OpenFTTH.CQRS" Version="2.1.1" />

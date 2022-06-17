@@ -2,6 +2,7 @@
 using OpenFTTH.CQRS;
 using OpenFTTH.EventSourcing;
 using OpenFTTH.EventSourcing.InMem;
+using OpenFTTH.Work.Business;
 using System;
 using System.Reflection;
 
@@ -21,6 +22,8 @@ namespace OpenFTTH.Work.Tests
 
             services.AddSingleton<IQueryDispatcher, QueryDispatcher>();
             services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
+
+            services.AddSingleton<WorkContextManager, WorkContextManager>();
 
             services.AddCQRS(businessAssemblies);
 
