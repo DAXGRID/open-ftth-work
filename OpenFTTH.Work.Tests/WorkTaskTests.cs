@@ -128,6 +128,46 @@ namespace OpenFTTH.Work.Tests
         }
 
         [Fact, Order(10)]
+        public void UpdateName_ShouldSucceed()
+        {
+            var workState = _eventStore.Projections.Get<WorkProjection>().State;
+
+            workState.TryGetWorkTaskByNumber("W00001", out var existingWorkTask).Should().BeTrue();
+
+            var workTaskAR = _eventStore.Aggregates.Load<WorkTaskAR>(existingWorkTask.Id);
+
+            var updateTypeResult = workTaskAR.UpdateName("Jesper");
+
+            _eventStore.Aggregates.Store(workTaskAR);
+
+            // Assert
+            updateTypeResult.IsSuccess.Should().BeTrue();
+
+            workState.TryGet<WorkTask>(existingWorkTask.Id, out var updatedWorkTask);
+            updatedWorkTask.Name.Should().Be("Jesper");
+        }
+
+        [Fact, Order(10)]
+        public void UpdateSubtaskName_ShouldSucceed()
+        {
+            var workState = _eventStore.Projections.Get<WorkProjection>().State;
+
+            workState.TryGetWorkTaskByNumber("W00001", out var existingWorkTask).Should().BeTrue();
+
+            var workTaskAR = _eventStore.Aggregates.Load<WorkTaskAR>(existingWorkTask.Id);
+
+            var updateTypeResult = workTaskAR.UpdateSubtaskName("Subtask 3");
+
+            _eventStore.Aggregates.Store(workTaskAR);
+
+            // Assert
+            updateTypeResult.IsSuccess.Should().BeTrue();
+
+            workState.TryGet<WorkTask>(existingWorkTask.Id, out var updatedWorkTask);
+            updatedWorkTask.SubtaskName.Should().Be("Subtask 3");
+        }
+
+        [Fact, Order(10)]
         public void UpdateType_ShouldSucceed()
         {
             var workState = _eventStore.Projections.Get<WorkProjection>().State;

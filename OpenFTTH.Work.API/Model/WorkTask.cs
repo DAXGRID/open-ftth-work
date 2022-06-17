@@ -6,8 +6,8 @@
         public DateTime CreatedDate { get; }
         public Guid? WorkProjectId { get; }
         public string Number { get; }
-        public string? Name { get; }
-        public string? SubtaskName { get; }
+        public string? Name { get; init; }
+        public string? SubtaskName { get; init; }
         public string? Type { get; init; }
         public string? Status { get; init; }
         public string? Owner { get; init; }

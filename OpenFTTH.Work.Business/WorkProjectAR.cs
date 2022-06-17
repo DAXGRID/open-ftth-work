@@ -16,6 +16,7 @@ namespace OpenFTTH.Work.Business
         public WorkProjectAR()
         {
             Register<WorkProjectCreated>(Apply);
+            Register<WorkProjectNameChanged>(Apply);
             Register<WorkProjectTypeChanged>(Apply);
             Register<WorkProjectStatusChanged>(Apply);
             Register<WorkProjectOwnerChanged>(Apply);
@@ -50,6 +51,31 @@ namespace OpenFTTH.Work.Business
         }
 
         #endregion
+
+        #region Update Name
+        public Result UpdateName(string? name)
+        {
+            if (_workProjectState == null)
+                throw new ApplicationException($"Invalid internal state. State cannot be null. Seems that method is called on non yet created object.");
+
+            if (_workProjectState.Name == name)
+                return Result.Fail(new WorkError(WorkErrorCodes.WORK_PROJECT_NAME_NOT_CHANGED, $"The work project name is already set to: {name}. Will not change anything."));
+
+            RaiseEvent(new WorkProjectNameChanged(this.Id, name));
+
+            return Result.Ok();
+        }
+
+        private void Apply(WorkProjectNameChanged @event)
+        {
+            if (_workProjectState == null)
+                throw new ApplicationException($"Invalid internal state. State cannot be null. Seems that method is called on non yet created object.");
+
+            _workProjectState = _workProjectState with { Name = @event.Name };
+        }
+
+        #endregion
+
 
         #region Update Type
         public Result UpdateType(string? type)

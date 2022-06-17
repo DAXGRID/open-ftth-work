@@ -16,6 +16,8 @@ namespace OpenFTTH.Work.Business
         public WorkTaskAR()
         {
             Register<WorkTaskCreated>(Apply);
+            Register<WorkTaskNameChanged>(Apply);
+            Register<WorkTaskSubtaskNameChanged>(Apply);
             Register<WorkTaskTypeChanged>(Apply);
             Register<WorkTaskStatusChanged>(Apply);
             Register<WorkTaskOwnerChanged>(Apply);
@@ -56,6 +58,55 @@ namespace OpenFTTH.Work.Business
         }
 
         #endregion
+
+        #region Update Name
+        public Result UpdateName(string? name)
+        {
+            if (_workTaskState == null)
+                throw new ApplicationException($"Invalid internal state. State cannot be null. Seems that method is called on non yet created object.");
+
+            if (_workTaskState.SubtaskName == name)
+                return Result.Fail(new WorkError(WorkErrorCodes.WORK_TASK_NAME_NOT_CHANGED, $"The work task name is already set to: {name}. Will not change anything."));
+
+            RaiseEvent(new WorkTaskNameChanged(this.Id, name));
+
+            return Result.Ok();
+        }
+
+        private void Apply(WorkTaskNameChanged @event)
+        {
+            if (_workTaskState == null)
+                throw new ApplicationException($"Invalid internal state. State cannot be null. Seems that method is called on non yet created object.");
+
+            _workTaskState = _workTaskState with { Name = @event.Name };
+        }
+
+        #endregion
+
+        #region Update Subtask Name
+        public Result UpdateSubtaskName(string? name)
+        {
+            if (_workTaskState == null)
+                throw new ApplicationException($"Invalid internal state. State cannot be null. Seems that method is called on non yet created object.");
+
+            if (_workTaskState.Name == name)
+                return Result.Fail(new WorkError(WorkErrorCodes.WORK_TASK_SUBTASK_NAME_NOT_CHANGED, $"The work task name is already set to: {name}. Will not change anything."));
+
+            RaiseEvent(new WorkTaskSubtaskNameChanged(this.Id, name));
+
+            return Result.Ok();
+        }
+
+        private void Apply(WorkTaskSubtaskNameChanged @event)
+        {
+            if (_workTaskState == null)
+                throw new ApplicationException($"Invalid internal state. State cannot be null. Seems that method is called on non yet created object.");
+
+            _workTaskState = _workTaskState with { SubtaskName = @event.SubtaskName };
+        }
+
+        #endregion
+
 
         #region Update Type
         public Result UpdateType(string? type)

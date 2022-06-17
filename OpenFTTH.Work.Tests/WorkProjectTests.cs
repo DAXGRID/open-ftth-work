@@ -78,6 +78,26 @@ namespace OpenFTTH.Work.Tests
         }
 
         [Fact, Order(3)]
+        public void UpdateNAme_ShouldSucceed()
+        {
+            var workState = _eventStore.Projections.Get<WorkProjection>().State;
+
+            workState.TryGetProjectByNumber("P00001", out var existingWorkProject).Should().BeTrue();
+
+            var workProjectAR = _eventStore.Aggregates.Load<WorkProjectAR>(existingWorkProject.Id);
+
+            var updateTypeResult = workProjectAR.UpdateName("Hi");
+
+            _eventStore.Aggregates.Store(workProjectAR);
+
+            // Assert
+            updateTypeResult.IsSuccess.Should().BeTrue();
+
+            workState.TryGet<WorkProject>(existingWorkProject.Id, out var updatedWorkProject);
+            updatedWorkProject.Name.Should().Be("Hi");
+        }
+
+        [Fact, Order(3)]
         public void UpdateType_ShouldSucceed()
         {
             var workState = _eventStore.Projections.Get<WorkProjection>().State;
