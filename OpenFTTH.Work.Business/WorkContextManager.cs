@@ -59,6 +59,8 @@ namespace OpenFTTH.Work.Business
             else
             {
                 _assignedWorkTaskIdByUserName.Add(userName, newTaskIdToSet);
+
+                UpdateUserNameIndex(userName, Guid.Empty, newTaskIdToSet);
             }
 
             return GetUserWorkContext(userName);
