@@ -1,7 +1,10 @@
 using FluentAssertions;
+using FluentResults;
+using OpenFTTH.CQRS;
 using OpenFTTH.EventSourcing;
 using OpenFTTH.Work.API;
 using OpenFTTH.Work.API.Model;
+using OpenFTTH.Work.API.Queries;
 using OpenFTTH.Work.Business;
 using OpenFTTH.Work.Business.Projections;
 using System;
@@ -15,11 +18,29 @@ namespace OpenFTTH.Work.Tests
     public class WorkTaskTests
     {
         private readonly IEventStore _eventStore;
+        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public WorkTaskTests(IEventStore eventStore)
+        public WorkTaskTests(IEventStore eventStore, IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
         {
             _eventStore = eventStore;
+            _queryDispatcher = queryDispatcher;
+            _commandDispatcher = commandDispatcher;
+
         }
+
+        [Fact, Order(0)]
+        public void GetUserContextWithoutAnyWorkTasks_ShouldSucceed()
+        {
+
+            var result = _queryDispatcher.HandleAsync<GetUserWorkContext, Result<UserWorkContext>>(new GetUserWorkContext("unknown")).Result;
+
+            result.Value.CurrentWorkTask.Should().NotBeNull();
+            result.Value.CurrentWorkTask.Id.Should().Be(Guid.Empty);
+            result.Value.CurrentWorkTask.Number.Should().Be("DEFAULT");
+
+        }
+
 
         [Fact, Order(1)]
         public void CreateWithoutProjectRef_ShouldSucceed()

@@ -21,6 +21,25 @@ namespace OpenFTTH.Work.Business
 
         public UserWorkContext GetUserWorkContext(string userName)
         {
+            // To allow system to be used without importing work tasks
+            if (!_workState.WorkTasks.Any())
+            {
+                return new UserWorkContext(userName, new WorkTask(
+                    id: Guid.Empty,
+                    createdDate: DateTime.MinValue, 
+                    workProjectId: null,
+                    number: "DEFAULT",
+                    name: null,
+                    subtaskName: null,
+                    type: null,
+                    status: null,
+                    owner: null,
+                    installationId: null,
+                    areaId: null,
+                    unitAddressId: null)
+                );
+            }
+
             if (_assignedWorkTaskIdByUserName.TryGetValue(userName, out var workTaskId))
             {
                 if (_workState.TryGet<WorkTask>(workTaskId, out var workTask))
