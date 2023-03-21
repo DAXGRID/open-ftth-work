@@ -13,13 +13,14 @@ namespace OpenFTTH.Work.Business.Projections
         {
             // Work project stuff
 
-            ProjectEvent<WorkProjectCreated>(
+            ProjectEventAsync<WorkProjectCreated>(
                 (@event) => {
                     _state.Add(((WorkProjectCreated)@event.Data).WorkProject);
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkProjectNameChanged>(
+            ProjectEventAsync<WorkProjectNameChanged>(
                 (@event) => {
                     var workProjectNameChangedEvent = (WorkProjectNameChanged)@event.Data;
 
@@ -27,10 +28,12 @@ namespace OpenFTTH.Work.Business.Projections
                      {
                          _state.Update(existingWorkProject with { Name = workProjectNameChangedEvent.Name });
                      }
+
+                     return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkProjectTypeChanged>(
+            ProjectEventAsync<WorkProjectTypeChanged>(
                 (@event) => {
                     var workProjectTypeChangedEvent = (WorkProjectTypeChanged)@event.Data;
 
@@ -38,10 +41,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkProject with { Type = workProjectTypeChangedEvent.Type });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkProjectStatusChanged>(
+            ProjectEventAsync<WorkProjectStatusChanged>(
                (@event) => {
                    var workProjectTypeChangedEvent = (WorkProjectStatusChanged)@event.Data;
 
@@ -49,10 +54,12 @@ namespace OpenFTTH.Work.Business.Projections
                    {
                        _state.Update(existingWorkProject with { Status = workProjectTypeChangedEvent.Status });
                    }
+
+                   return Task.CompletedTask;
                }
             );
 
-            ProjectEvent<WorkProjectOwnerChanged>(
+            ProjectEventAsync<WorkProjectOwnerChanged>(
               (@event) => {
                   var workProjectOwnerChangedEvent = (WorkProjectOwnerChanged)@event.Data;
 
@@ -60,19 +67,22 @@ namespace OpenFTTH.Work.Business.Projections
                   {
                       _state.Update(existingWorkProject with { Owner = workProjectOwnerChangedEvent.Owner });
                   }
+
+                  return Task.CompletedTask;
               }
             );
 
 
             // Work task stuff
 
-            ProjectEvent<WorkTaskCreated>(
+            ProjectEventAsync<WorkTaskCreated>(
                 (@event) => {
                     _state.Add(((WorkTaskCreated)@event.Data).WorkTask);
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskNameChanged>(
+            ProjectEventAsync<WorkTaskNameChanged>(
                 (@event) => {
                     var workTaskNameChangedEvent = (WorkTaskNameChanged)@event.Data;
 
@@ -80,10 +90,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkTask with { Name = workTaskNameChangedEvent.Name });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskSubtaskNameChanged>(
+            ProjectEventAsync<WorkTaskSubtaskNameChanged>(
                 (@event) => {
                     var workTaskSubtaskNameChangedEvent = (WorkTaskSubtaskNameChanged)@event.Data;
 
@@ -91,10 +103,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkTask with { SubtaskName = workTaskSubtaskNameChangedEvent.SubtaskName });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskTypeChanged>(
+            ProjectEventAsync<WorkTaskTypeChanged>(
                 (@event) => {
                     var workTaskTypeChangedEvent = (WorkTaskTypeChanged)@event.Data;
 
@@ -102,10 +116,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkTask with { Type = workTaskTypeChangedEvent.Type });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskStatusChanged>(
+            ProjectEventAsync<WorkTaskStatusChanged>(
                 (@event) => {
                     var workTaskTypeChangedEvent = (WorkTaskStatusChanged)@event.Data;
 
@@ -113,10 +129,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkTask with { Status = workTaskTypeChangedEvent.Status });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskOwnerChanged>(
+            ProjectEventAsync<WorkTaskOwnerChanged>(
                 (@event) => {
                     var workTaskOwnerChangedEvent = (WorkTaskOwnerChanged)@event.Data;
 
@@ -124,10 +142,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkTask with { Owner = workTaskOwnerChangedEvent.Owner });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskInstallationIdChanged>(
+            ProjectEventAsync<WorkTaskInstallationIdChanged>(
                 (@event) => {
                     var workTaskInstallationIdChangedEvent = (WorkTaskInstallationIdChanged)@event.Data;
 
@@ -135,10 +155,12 @@ namespace OpenFTTH.Work.Business.Projections
                     {
                         _state.Update(existingWorkTask with { InstallationId = workTaskInstallationIdChangedEvent.InstallationId });
                     }
+
+                    return Task.CompletedTask;
                 }
             );
 
-            ProjectEvent<WorkTaskAreaIdChanged>(
+            ProjectEventAsync<WorkTaskAreaIdChanged>(
                (@event) => {
                    var workTaskAreaIdChangedEvent = (WorkTaskAreaIdChanged)@event.Data;
 
@@ -146,10 +168,12 @@ namespace OpenFTTH.Work.Business.Projections
                    {
                        _state.Update(existingWorkTask with { AreaId = workTaskAreaIdChangedEvent.AreaId });
                    }
+
+                   return Task.CompletedTask;
                }
             );
 
-            ProjectEvent<WorkTaskUnitAddressIdChanged>(
+            ProjectEventAsync<WorkTaskUnitAddressIdChanged>(
               (@event) => {
                   var workTaskUnitAddressIdChangedEvent = (WorkTaskUnitAddressIdChanged)@event.Data;
 
@@ -157,9 +181,10 @@ namespace OpenFTTH.Work.Business.Projections
                   {
                       _state.Update(existingWorkTask with { UnitAddressId = workTaskUnitAddressIdChangedEvent.UnitAddressId });
                   }
+
+                  return Task.CompletedTask;
               }
            );
-
         }
     }
 }
