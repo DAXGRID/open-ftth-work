@@ -36,7 +36,6 @@ namespace OpenFTTH.Work.Tests
             services.AddSingleton<IAddressRepository>(x =>
                 new InMemAddressRepository(new List<IAddress>())
             );
-
         }
     }
 }
