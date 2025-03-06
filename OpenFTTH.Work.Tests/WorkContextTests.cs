@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Xunit;
 using Xunit.Extensions.Ordering;
+using System.Threading.Tasks;
 
 namespace OpenFTTH.Work.Tests
 {
@@ -32,34 +33,32 @@ namespace OpenFTTH.Work.Tests
         }
 
         [Fact, Order(1)]
-        public void GetUserCurrentWorkTaskOnUserThatHasNoWorkTaskSet_ShouldSucceed()
+        public async Task GetUserCurrentWorkTaskOnUserThatHasNoWorkTaskSet_ShouldSucceed()
         {
-            var result = _queryDispatcher.HandleAsync<GetUserWorkContext, Result<UserWorkContext>>(new GetUserWorkContext("hans")).Result;
+            var result = await _queryDispatcher.HandleAsync<GetUserWorkContext, Result<UserWorkContext>>(new GetUserWorkContext("hans"));
 
             result.Value.CurrentWorkTask.Should().BeNull();
-
         }
 
-
         [Fact, Order(2)]
-        public void SetUserCurrentToWorkTaskThatDoesNotExists_ShouldReturnNullWorkTask()
+        public async Task SetUserCurrentToWorkTaskThatDoesNotExists_ShouldReturnNullWorkTask()
         {
             var workTaskId = Guid.NewGuid();
 
-            var result = _commandDispatcher.HandleAsync<SetUserCurrentWorkTask, Result<UserWorkContext>>(new SetUserCurrentWorkTask("hans", workTaskId)).Result;
+            var result = await _commandDispatcher.HandleAsync<SetUserCurrentWorkTask, Result<UserWorkContext>>(new SetUserCurrentWorkTask("hans", workTaskId));
 
             result.Value.CurrentWorkTask.Should().BeNull();
         }
 
 
         [Fact, Order(3)]
-        public void SetUserCurrentToWorkTaskThatExists_ShouldSucceed()
+        public async Task SetUserCurrentToWorkTaskThatExists_ShouldSucceed()
         {
             var workState = _eventStore.Projections.Get<WorkProjection>().State;
 
             workState.TryGetWorkTaskByNumber("W00001", out var existingWorkTask).Should().BeTrue();
 
-            var result = _commandDispatcher.HandleAsync<SetUserCurrentWorkTask, Result<UserWorkContext>>(new SetUserCurrentWorkTask("hans", existingWorkTask.Id)).Result;
+            var result = await _commandDispatcher.HandleAsync<SetUserCurrentWorkTask, Result<UserWorkContext>>(new SetUserCurrentWorkTask("hans", existingWorkTask.Id));
 
             result.Value.CurrentWorkTask.Should().NotBeNull();
 

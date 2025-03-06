@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Xunit;
 using Xunit.Extensions.Ordering;
+using System.Threading.Tasks;
 
 namespace OpenFTTH.Work.Tests
 {
@@ -30,17 +31,14 @@ namespace OpenFTTH.Work.Tests
         }
 
         [Fact, Order(0)]
-        public void GetUserContextWithoutAnyWorkTasks_ShouldSucceed()
+        public async Task GetUserContextWithoutAnyWorkTasks_ShouldSucceed()
         {
-
-            var result = _queryDispatcher.HandleAsync<GetUserWorkContext, Result<UserWorkContext>>(new GetUserWorkContext("unknown")).Result;
+            var result = await _queryDispatcher.HandleAsync<GetUserWorkContext, Result<UserWorkContext>>(new GetUserWorkContext("unknown"));
 
             result.Value.CurrentWorkTask.Should().NotBeNull();
             result.Value.CurrentWorkTask.Id.Should().Be(Guid.Empty);
             result.Value.CurrentWorkTask.Number.Should().Be("DEFAULT");
-
         }
-
 
         [Fact, Order(1)]
         public void CreateWithoutProjectRef_ShouldSucceed()

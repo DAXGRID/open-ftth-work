@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Xunit.Extensions.Ordering;
+using System.Threading.Tasks;
 
 namespace OpenFTTH.Work.Tests
 {
@@ -28,9 +29,9 @@ namespace OpenFTTH.Work.Tests
         }
 
         [Fact, Order(1)]
-        public void QueryWorkTaskAndProjects_ShouldSucceed()
+        public async Task QueryWorkTaskAndProjects_ShouldSucceed()
         {
-            var workTaskAndProjectsList = _queryDispatcher.HandleAsync<GetAllWorkTaskAndProjects, Result<List<WorkTaskAndProject>>>(new GetAllWorkTaskAndProjects()).Result.Value.ToList();
+            var workTaskAndProjectsList = (await _queryDispatcher.HandleAsync<GetAllWorkTaskAndProjects, Result<List<WorkTaskAndProject>>>(new GetAllWorkTaskAndProjects())).Value.ToList();
 
             workTaskAndProjectsList.Count(w => w.WorkTask != null).Should().BeGreaterThan(0);
             workTaskAndProjectsList.Count(w => w.WorkProject != null).Should().BeGreaterThan(0);
