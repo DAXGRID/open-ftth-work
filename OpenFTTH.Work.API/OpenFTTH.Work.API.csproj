@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="OpenFTTH.Results" Version="0.2.0" />
     <PackageReference Include="OpenFTTH.CQRS" Version="5.0.0" />
-    <PackageReference Include="OpenFTTH.Events" Version="3.2.0" />
+    <PackageReference Include="OpenFTTH.Events" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
