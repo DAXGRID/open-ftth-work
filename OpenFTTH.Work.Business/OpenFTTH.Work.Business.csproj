@@ -11,7 +11,7 @@
     <PackageReference Include="OpenFTTH.Address.API" Version="3.0.0" />
     <PackageReference Include="OpenFTTH.Address.Business" Version="3.0.0" />
     <PackageReference Include="OpenFTTH.Core" Version="3.0.0" />
-    <PackageReference Include="OpenFTTH.CQRS" Version="5.0.1" />
+    <PackageReference Include="OpenFTTH.CQRS" Version="5.1.0" />
     <PackageReference Include="OpenFTTH.Events" Version="4.0.0" />
     <PackageReference Include="OpenFTTH.EventSourcing" Version="5.0.1" />
   </ItemGroup>
